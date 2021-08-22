@@ -17,7 +17,7 @@ describe('UserController', () => {
   let wrongPassword: string = "abcd";
 
   beforeEach(async () => {
-    userService = new UserService(new UserRepository, new TokenService(new TokenRepository()))
+    userService = new UserService(new UserRepository(), new TokenService(new TokenRepository()))
   });
 
   describe('register', () => {
