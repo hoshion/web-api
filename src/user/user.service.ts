@@ -29,7 +29,8 @@ export class UserService {
         const user: UserModel = this.userRepository.find(email)
     
         const isPassEquals = await compare(password, user.password)
-        if (!isPassEquals) throw new HttpException("Password isn't correct", HttpStatus.BAD_REQUEST)
+        if (!isPassEquals) 
+        throw new HttpException("Password isn't correct", HttpStatus.BAD_REQUEST)
     
         const tokens = this.tokenService.generateToken(email)
         this.tokenService.saveToken(user.email, tokens.refreshToken)
