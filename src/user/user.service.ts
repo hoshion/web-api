@@ -9,7 +9,7 @@ import { RegisterModel } from "./register.model";
 export class UserService {
     constructor(readonly userRepository: UserRepository, readonly tokenService: TokenService) {}
 
-    async register(email: string, password: string): Promise<RegisterModel> {
+    async register(email: string, password: string): Promise<RegisterModel>{
         if (this.userRepository.exists(email)) 
             throw new HttpException("User with such email already exists", HttpStatus.BAD_REQUEST);
 
@@ -30,7 +30,7 @@ export class UserService {
     
         const isPassEquals = await compare(password, user.password)
         if (!isPassEquals) 
-        throw new HttpException("Password isn't correct", HttpStatus.BAD_REQUEST)
+            throw new HttpException("Password isn't correct", HttpStatus.BAD_REQUEST)
     
         const tokens = this.tokenService.generateToken(email)
         this.tokenService.saveToken(user.email, tokens.refreshToken)
