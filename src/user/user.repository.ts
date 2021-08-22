@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import {promises} from "fs"
+import {promises, readFileSync} from "fs"
 import { UserModel } from "./user.model";
 
 @Injectable()
@@ -7,17 +7,12 @@ export class UserRepository {
     private users: UserModel[];
 
     constructor () {
-        promises
-          .readFile('users.json', 'utf-8')
-          .then(
-            (analyticsJSON) =>
-              (this.users = JSON.parse(analyticsJSON).users)
-          );
+      let JSONobj = readFileSync("users.json", "utf-8");
+      this.users = JSON.parse(JSONobj).users;
     }
   
   add (email: string, password: string) {
     this.users.push(new UserModel(email, password))
-    this.save()
     return { email }
   }
 

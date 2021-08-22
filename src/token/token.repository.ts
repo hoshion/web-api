@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import {promises} from "fs"
+import {promises, readFileSync} from "fs"
 import { TokenModel } from "./token.model";
 
 @Injectable()
@@ -7,12 +7,8 @@ export class TokenRepository {
     private tokens: TokenModel[];
 
     constructor () {
-        promises
-          .readFile('tokens.json', 'utf-8')
-          .then(
-            (analyticsJSON) =>
-              (this.tokens = JSON.parse(analyticsJSON).tokens)
-          );
+      let JSONobj = readFileSync("tokens.json", "utf-8");
+      this.tokens = JSON.parse(JSONobj).tokens;
     }
     
       async add (email: string, refreshToken: string) {

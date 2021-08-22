@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { TokenService } from "../token/token.service";
 import { UserModel } from "./user.model";
 import { UserRepository } from "./user.repository";
-import bcrypt from "bcrypt";
+import { hash, compare } from "bcrypt";
 import { RegisterModel } from "./register.model";
 
 @Injectable()
@@ -13,7 +13,7 @@ export class UserService {
         if (this.userRepository.exists(email)) 
             throw new HttpException("User with such email already exists", HttpStatus.BAD_REQUEST);
 
-        const hashPassword = await bcrypt.hash(password, 8)
+        const hashPassword = await hash(password, 8)
         const user = this.userRepository.add(email, hashPassword)
 
         const tokens = this.tokenService.generateToken(user.email)
@@ -28,7 +28,7 @@ export class UserService {
     
         const user: UserModel = this.userRepository.find(email)
     
-        const isPassEquals = await bcrypt.compare(password, user.password)
+        const isPassEquals = await compare(password, user.password)
         if (!isPassEquals) throw new HttpException("Password isn't correct", HttpStatus.BAD_REQUEST)
     
         const tokens = this.tokenService.generateToken(email)
