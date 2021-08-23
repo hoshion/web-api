@@ -10,7 +10,7 @@ export class TokenService {
     this.tokenRepository.save();
   }
   
-  saveToken(email: string, refreshToken: any) {
+  saveToken(email: string, refreshToken: string) {
     if (this.tokenRepository.exists(email)) {
       this.tokenRepository.updateToken(email, refreshToken);
     } else this.tokenRepository.add(email, refreshToken);
@@ -19,9 +19,7 @@ export class TokenService {
   }
 
   generateToken(email: string): { accessToken: string; refreshToken: string } {
-    const accessToken: string = sign({ email }, process.env.JWT_ACCESS_SECRET, {
-      expiresIn: '30m',
-    });
+    const accessToken: string = this.generateAccessToken(email)
     const refreshToken: string = sign(
       { email },
       process.env.JWT_REFRESH_SECRET,
@@ -32,7 +30,7 @@ export class TokenService {
   }
 
   generateAccessToken(email: string) {
-    return sign(email, process.env.JWT_ACCESS_SECRET, { expiresIn: '30m' });
+    return sign({email}, process.env.JWT_ACCESS_SECRET, { expiresIn: '30m' });
   }
 
   validateAccessToken(token: string): JwtPayload | string {

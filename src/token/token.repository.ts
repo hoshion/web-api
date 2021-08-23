@@ -29,6 +29,10 @@ export class TokenRepository {
     writeFileSync('tokens.json', JSON.stringify({ tokens: this.tokens }));
   }
 
+  clear() {
+    writeFileSync("tokens.json", JSON.stringify({ tokens: []}))
+  }
+
   find(refreshToken: string) {
     return this.tokens.find((token) => token.refreshToken === refreshToken);
   }
