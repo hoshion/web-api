@@ -43,4 +43,8 @@ export class UserService {
 
     return { ...tokens, email };
   }
+
+  saveRepository() {
+    this.userRepository.save();
+  }
 }
