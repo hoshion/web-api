@@ -23,7 +23,6 @@ export class TokenRepository {
     this.tokens.forEach((token) => {
       if (token.email === email) token.refreshToken = refreshToken;
     });
-    this.save();
   }
 
   save() {

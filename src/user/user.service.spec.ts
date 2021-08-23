@@ -14,12 +14,10 @@ describe('UserController', () => {
   const wrongEmail = 'test1@test.com';
   const wrongPassword = 'abcd';
 
-  const tokenRepository: TokenRepository = new TokenRepository();
-
   beforeEach(async () => {
     userService = new UserService(
       new UserRepository(),
-      new TokenService(tokenRepository),
+      new TokenService(new TokenRepository()),
     );
   });
 
