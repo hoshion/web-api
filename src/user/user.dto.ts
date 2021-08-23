@@ -1,10 +1,10 @@
-import { ArrayMaxSize, ArrayMinSize, IsEmail } from "class-validator";
+import { ArrayMaxSize, ArrayMinSize, IsEmail } from 'class-validator';
 
 export class UserDTO {
-    @IsEmail()
-    email: string;
+  @IsEmail()
+  email: string;
 
-    @ArrayMinSize(3)
-    @ArrayMaxSize(20)
-    password: string;
+  @ArrayMinSize(3)
+  @ArrayMaxSize(20)
+  password: string;
 }

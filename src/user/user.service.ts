@@ -1,45 +1,50 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { TokenService } from "../token/token.service";
-import { UserModel } from "./user.model";
-import { UserRepository } from "./user.repository";
-import { hash, compare } from "bcrypt";
-import { RegisterModel } from "./register.model";
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { TokenService } from '../token/token.service';
+import { UserModel } from './user.model';
+import { UserRepository } from './user.repository';
+import { hashSync, compareSync } from 'bcrypt';
+import { RegisterModel } from './register.model';
 
 @Injectable()
 export class UserService {
-    constructor(readonly userRepository: UserRepository, readonly tokenService: TokenService) {}
+  constructor(
+    readonly userRepository: UserRepository,
+    readonly tokenService: TokenService,
+  ) {}
 
-    async register(email: string, password: string): Promise<RegisterModel>{
-        if (this.userRepository.exists(email)) 
-            throw new HttpException("User with such email already exists", HttpStatus.BAD_REQUEST);
+  register(email: string, password: string): RegisterModel {
+    if (this.userRepository.exists(email))
+      throw new HttpException(
+        'User with such email already exists',
+        HttpStatus.BAD_REQUEST,
+      );
 
-        const hashPassword = await hash(password, 8)
-        const user = this.userRepository.add(email, hashPassword)
+    const hashPassword = hashSync(password, 8);
+    const user = this.userRepository.add(email, hashPassword);
 
-        const tokens = this.tokenService.generateToken(user.email)
-        this.tokenService.saveToken(user.email, tokens.refreshToken)
+    const tokens = this.tokenService.generateToken(user.email);
+    this.tokenService.saveToken(user.email, tokens.refreshToken);
 
-        return { ...tokens, user }
-    }
+    return { ...tokens, user };
+  }
 
-    async login(email: string, password: string) {
-        if (!this.userRepository.exists(email)) 
-            throw new HttpException("User is not found", HttpStatus.BAD_REQUEST)
-    
-        const user: UserModel = this.userRepository.find(email)
-    
-        const isPassEquals = await compare(password, user.password)
-        if (!isPassEquals) 
-            throw new HttpException("Password isn't correct", HttpStatus.BAD_REQUEST)
-    
-        const tokens = this.tokenService.generateToken(email)
-        this.tokenService.saveToken(user.email, tokens.refreshToken)
+  login(email: string, password: string) {
+    if (!this.userRepository.exists(email))
+      throw new HttpException('User is not found', HttpStatus.BAD_REQUEST);
 
-        return { ...tokens, email }
-    }
+    const user: UserModel = this.userRepository.find(email);
 
-    saveRepository(){
-        this.userRepository.save();
-    }
+    const isPassEquals = compareSync(password, user.password);
+    if (!isPassEquals)
+      throw new HttpException("Password isn't correct", HttpStatus.BAD_REQUEST);
 
+    const tokens = this.tokenService.generateToken(email);
+    this.tokenService.saveToken(user.email, tokens.refreshToken);
+
+    return { ...tokens, email };
+  }
+
+  saveRepository() {
+    this.userRepository.save();
+  }
 }

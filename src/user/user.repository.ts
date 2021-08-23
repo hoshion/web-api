@@ -1,32 +1,31 @@
-import { Injectable } from "@nestjs/common";
-import {promises, readFileSync} from "fs"
-import { UserModel } from "./user.model";
+import { Injectable } from '@nestjs/common';
+import { promises, readFileSync } from 'fs';
+import { UserModel } from './user.model';
 
 @Injectable()
 export class UserRepository {
-    private users: UserModel[];
+  private users: UserModel[];
 
-    constructor () {
-      let JSONobj = readFileSync("users.json", "utf-8");
-      this.users = JSON.parse(JSONobj).users;
-    }
-  
-  add (email: string, password: string) {
-    this.users.push(new UserModel(email, password))
-    return { email }
+  constructor() {
+    const JSONobj = readFileSync('users.json', 'utf-8');
+    this.users = JSON.parse(JSONobj).users;
   }
 
-  exists (email: string): boolean {
-    return this.users.some(user => user.email === email)
+  add(email: string, password: string) {
+    this.users.push(new UserModel(email, password));
+    return { email };
   }
 
-  save (): void {
-    let users: UserModel[] = this.users;
-    promises.writeFile('users.json', JSON.stringify({ users }))
+  exists(email: string): boolean {
+    return this.users.some((user) => user.email === email);
   }
 
-  find (email: string): UserModel {
-    return this.users.find(user => user.email === email)
+  save(): void {
+    const users: UserModel[] = this.users;
+    promises.writeFile('users.json', JSON.stringify({ users }));
   }
 
+  find(email: string): UserModel {
+    return this.users.find((user) => user.email === email);
+  }
 }

@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import * as env from "dotenv";
+import * as env from 'dotenv';
 
 env.config();
 
