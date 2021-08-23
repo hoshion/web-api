@@ -13,7 +13,6 @@ export class TokenRepository {
 
   async add(email: string, refreshToken: string) {
     this.tokens.push(new TokenModel(email, refreshToken));
-    this.save();
   }
 
   exists(email: string): boolean {
@@ -28,8 +27,7 @@ export class TokenRepository {
   }
 
   save() {
-    const tokens: TokenModel[] = this.tokens;
-    promises.writeFile('tokens.json', JSON.stringify({ tokens }));
+    promises.writeFile('tokens.json', JSON.stringify({ tokens: this.tokens }));
   }
 
   find(refreshToken: string) {

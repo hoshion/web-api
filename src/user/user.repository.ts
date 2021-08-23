@@ -21,8 +21,7 @@ export class UserRepository {
   }
 
   save(): void {
-    const users: UserModel[] = this.users;
-    promises.writeFile('users.json', JSON.stringify({ users }));
+    promises.writeFile('users.json', JSON.stringify({ users: this.users }));
   }
 
   find(email: string): UserModel {
