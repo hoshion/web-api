@@ -13,7 +13,6 @@ export class UserRepository {
 
   add(email: string, password: string) {
     this.users.push(new UserModel(email, password));
-    this.save();
     return { email };
   }
 

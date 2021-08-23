@@ -13,7 +13,6 @@ export class TokenRepository {
 
   add(email: string, refreshToken: string) {
     this.tokens.push(new TokenModel(email, refreshToken));
-    this.save();
   }
 
   exists(email: string): boolean {
@@ -24,7 +23,6 @@ export class TokenRepository {
     this.tokens.forEach((token) => {
       if (token.email === email) token.refreshToken = refreshToken;
     });
-    this.save();
   }
 
   save() {

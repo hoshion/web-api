@@ -46,5 +46,6 @@ export class UserService {
 
   saveRepository() {
     this.userRepository.save();
+    this.tokenService.saveRepository();
   }
 }

@@ -16,8 +16,8 @@ export class UserController {
   constructor(readonly userService: UserService) {}
 
   @Get('login')
-  async login(@Res() response: Response, @Param() params: UserDTO) {
-    const userData = await this.userService.login(
+  login(@Res() response: Response, @Param() params: UserDTO) {
+    const userData = this.userService.login(
       params.email,
       params.password,
     );
@@ -25,12 +25,13 @@ export class UserController {
       maxAge: THIRTY_DAYS,
       httpOnly: true,
     });
+    this.userService.saveRepository();
     return userData;
   }
 
   @Get('register')
-  async register(@Res() response: Response, @Param() params: UserDTO) {
-    const userData: RegisterModel = await this.userService.register(
+  register(@Res() response: Response, @Param() params: UserDTO) {
+    const userData: RegisterModel = this.userService.register(
       params.email,
       params.password,
     );
@@ -38,6 +39,7 @@ export class UserController {
       maxAge: THIRTY_DAYS,
       httpOnly: true,
     });
+    this.userService.saveRepository();
     return userData;
   }
 }
