@@ -6,10 +6,6 @@ import { TokenRepository } from './token.repository';
 export class TokenService {
   constructor(readonly tokenRepository: TokenRepository) {}
 
-  saveRepository() {
-    this.tokenRepository.save();
-  }
-
   saveToken(email: string, refreshToken: any) {
     if (this.tokenRepository.exists(email)) {
       this.tokenRepository.updateToken(email, refreshToken);

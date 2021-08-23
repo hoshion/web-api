@@ -25,7 +25,6 @@ export class UserController {
       maxAge: THIRTY_DAYS,
       httpOnly: true,
     });
-    this.userService.saveRepository();
     return userData;
   }
 
@@ -39,7 +38,6 @@ export class UserController {
       maxAge: THIRTY_DAYS,
       httpOnly: true,
     });
-    this.userService.saveRepository();
     return userData;
   }
 }
