@@ -16,10 +16,10 @@ export class UserController {
   constructor(readonly userService: UserService) {}
 
   @Get('login')
-  login(@Res() response: Response, @Param() params: UserDTO) {
-    const userData = this.userService.login(
+  async login(@Res() response: Response, @Param() params: UserDTO) {
+    const userData = await this.userService.login(
       params.email,
-      params.password
+      params.password,
     );
     response.cookie('refreshToken', userData.refreshToken, {
       maxAge: THIRTY_DAYS,
@@ -29,8 +29,8 @@ export class UserController {
   }
 
   @Get('register')
-  register(@Res() response: Response, @Param() params: UserDTO) {
-    const userData: RegisterModel = this.userService.register(
+  async register(@Res() response: Response, @Param() params: UserDTO) {
+    const userData: RegisterModel = await this.userService.register(
       params.email,
       params.password,
     );
