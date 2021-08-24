@@ -7,8 +7,8 @@ export class BTCRateController {
   constructor(readonly btcRateService: BTCRateService) {}
 
   @Get()
-  getRate(@Res() res: Response) {
+  getRate() {
     const userData = this.btcRateService.getBTCRate();
-    res.send(userData);
+    return userData;
   }
 }
