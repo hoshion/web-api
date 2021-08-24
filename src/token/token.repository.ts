@@ -4,7 +4,7 @@ import { TokenModel } from './token.model';
 
 @Injectable()
 export class TokenRepository {
-  private tokens: TokenModel[];
+  protected tokens: TokenModel[];
 
   constructor() {
     const JSONobj = readFileSync('tokens.json', 'utf-8');
@@ -30,7 +30,8 @@ export class TokenRepository {
   }
 
   clear() {
-    writeFileSync("tokens.json", JSON.stringify({ tokens: []}))
+    this.tokens = [];
+    this.save()
   }
 
   find(refreshToken: string) {

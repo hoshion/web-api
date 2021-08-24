@@ -1,5 +1,8 @@
 import { TokenRepository } from "./token.repository";
 import { TokenService } from "./token.service"
+import * as env from 'dotenv';
+
+env.config();
 
 describe("TokenService", () => {
     let tokenService: TokenService;
@@ -26,7 +29,13 @@ describe("TokenService", () => {
     describe("generateToken", () => {
         it("check tokens", () => {
             let tokens = tokenService.generateToken(testingEmail);
-            expect(tokenService.generateToken(testingEmail)).toBe(tokens);
+            expect(tokens).toHaveProperty("accessToken");
+            expect(tokens).toHaveProperty("refreshToken");
         })
+    })
+
+    it("validateAccessToken", () => {
+        let userData = tokenService.generateToken(testingEmail);
+        expect(tokenService.validateAccessToken(userData.accessToken)).toHaveProperty("email", testingEmail)
     })
 })

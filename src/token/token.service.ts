@@ -23,13 +23,13 @@ export class TokenService {
     const refreshToken: string = sign(
       { email },
       process.env.JWT_REFRESH_SECRET,
-      { expiresIn: '30m' },
+      { expiresIn: '30d' },
     );
 
     return { accessToken, refreshToken };
   }
 
-  generateAccessToken(email: string) {
+  private generateAccessToken(email: string) {
     return sign({email}, process.env.JWT_ACCESS_SECRET, { expiresIn: '30m' });
   }
 

@@ -4,7 +4,7 @@ import { UserModel } from './user.model';
 
 @Injectable()
 export class UserRepository {
-  private users: UserModel[];
+  protected users: UserModel[];
 
   constructor() {
     const JSONobj = readFileSync('users.json', 'utf-8');
@@ -26,5 +26,10 @@ export class UserRepository {
 
   find(email: string): UserModel {
     return this.users.find((user) => user.email === email);
+  }
+
+  delete(email: string){
+    this.users = this.users.filter(user => user.email != email);
+    this.save();
   }
 }
