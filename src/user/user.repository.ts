@@ -28,8 +28,8 @@ export class UserRepository {
     return this.users.find((user) => user.email === email);
   }
 
-  delete(email: string){
-    this.users = this.users.filter(user => user.email != email);
+  delete(email: string) {
+    this.users = this.users.filter((user) => user.email != email);
     this.save();
   }
 }

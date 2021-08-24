@@ -1,37 +1,38 @@
-import { TestingUserRepository } from "./testing.user.repository";
-import { UserModel } from "./user.model";
+import { TestingUserRepository } from './testing.user.repository';
 
+describe('TokenRepository', () => {
+  let userRepository: TestingUserRepository;
 
-describe("TokenRepository", () => {
-    let userRepository: TestingUserRepository;
+  const testingEmail = 'test@test.com';
+  const testingPassword = 'password';
 
-    const testingEmail: string = "test@test.com"
-    const testingPassword: string = "password";
+  beforeAll(() => {
+    userRepository = new TestingUserRepository();
+    userRepository.add(testingEmail, testingPassword);
+    userRepository.save();
+  });
 
-    beforeAll(() => {
-        userRepository = new TestingUserRepository();
-        userRepository.add(testingEmail, testingPassword)
-        userRepository.save();
-    })
+  beforeEach(() => {
+    userRepository = new TestingUserRepository();
+  });
 
-    beforeEach(() => {
-        userRepository = new TestingUserRepository();
-    })
+  it('add', () => {
+    const user = userRepository
+      .getAll()
+      .find((token) => token.email === testingEmail);
+    expect(user).toBeTruthy();
+  });
+  it('find', () => {
+    expect(userRepository.find(testingEmail)).toBeTruthy();
+  });
+  it('esists', () => {
+    const extsts: boolean = userRepository
+      .getAll()
+      .some((tkn) => tkn.email == testingEmail);
+    expect(userRepository.exists(testingEmail)).toBe(extsts);
+  });
 
-    it("add", () => {
-        let user = userRepository.getAll().find((token) => token.email === testingEmail);
-        expect(user).toBeTruthy();
-    })
-    it("find", () => {
-        expect(userRepository.find(testingEmail)).toBeTruthy();
-    })
-    it("esists", () => {
-        let extsts: boolean = userRepository.getAll().some(tkn => tkn.email == testingEmail);
-        expect(userRepository.exists(testingEmail)).toBe(extsts);
-    })
-
-    afterAll(() => {
-        userRepository.delete(testingEmail)
-    })
-
-})
+  afterAll(() => {
+    userRepository.delete(testingEmail);
+  });
+});

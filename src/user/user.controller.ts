@@ -1,9 +1,4 @@
-import {
-  Controller,
-  Get,
-  Param,
-  Res,
-} from '@nestjs/common';
+import { Controller, Get, Param, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { RegisterModel } from './register.model';
 import { UserDTO } from './user.dto';
@@ -17,10 +12,7 @@ export class UserController {
 
   @Get('login')
   login(@Res() response: Response, @Param() params: UserDTO) {
-    const userData = this.userService.login(
-      params.email,
-      params.password,
-    );
+    const userData = this.userService.login(params.email, params.password);
     response.cookie('refreshToken', userData.refreshToken, {
       maxAge: THIRTY_DAYS,
       httpOnly: true,

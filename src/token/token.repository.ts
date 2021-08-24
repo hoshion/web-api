@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { promises, readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 import { TokenModel } from './token.model';
 
 @Injectable()
@@ -31,7 +31,7 @@ export class TokenRepository {
 
   clear() {
     this.tokens = [];
-    this.save()
+    this.save();
   }
 
   find(refreshToken: string) {

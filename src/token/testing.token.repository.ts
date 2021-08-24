@@ -1,7 +1,7 @@
-import { TokenRepository } from "./token.repository";
+import { TokenRepository } from './token.repository';
 
 export class TestingTokenRepository extends TokenRepository {
-    getAll(){
-        return this.tokens;
-    }
+  getAll() {
+    return this.tokens;
+  }
 }
