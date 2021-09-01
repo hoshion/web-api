@@ -1,1 +1,1 @@
-ору
+Web API for BTCRate
